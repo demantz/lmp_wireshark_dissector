@@ -168,6 +168,88 @@ static int hf_lmp_err = -1;
 static int hf_lmp_escohdl = -1;
 static int hf_lmp_escoltaddr = -1;
 static int hf_lmp_features = -1;
+static int hf_lmp_feat_3slot = -1;
+static int hf_lmp_feat_5slot = -1;
+static int hf_lmp_feat_enc = -1;
+static int hf_lmp_feat_slotoff = -1;
+static int hf_lmp_feat_timacc = -1;
+static int hf_lmp_feat_rolesw = -1;
+static int hf_lmp_feat_holdmo = -1;
+static int hf_lmp_feat_sniffmo = -1;
+static int hf_lmp_feat_res0 = -1;
+static int hf_lmp_feat_pwrctlreq = -1;
+static int hf_lmp_feat_cqddr = -1;
+static int hf_lmp_feat_sco = -1;
+static int hf_lmp_feat_hv2 = -1;
+static int hf_lmp_feat_hv3 = -1;
+static int hf_lmp_feat_mulaw = -1;
+static int hf_lmp_feat_alaw = -1;
+static int hf_lmp_feat_cvsd = -1;
+static int hf_lmp_feat_pagneg = -1;
+static int hf_lmp_feat_pwrctl = -1;
+static int hf_lmp_feat_transsync = -1;
+static int hf_lmp_feat_flowctl1 = -1;
+static int hf_lmp_feat_flowctl2 = -1;
+static int hf_lmp_feat_flowctl3 = -1;
+static int hf_lmp_feat_bcenc = -1;
+static int hf_lmp_feat_res1 = -1;
+static int hf_lmp_feat_acl2 = -1;
+static int hf_lmp_feat_acl3 = -1;
+static int hf_lmp_feat_eninq = -1;
+static int hf_lmp_feat_intinq = -1;
+static int hf_lmp_feat_intpag = -1;
+static int hf_lmp_feat_rssiinq = -1;
+static int hf_lmp_feat_ev3 = -1;
+static int hf_lmp_feat_ev4 = -1;
+static int hf_lmp_feat_ev5 = -1;
+static int hf_lmp_feat_res2 = -1;
+static int hf_lmp_feat_afhcapsl = -1;
+static int hf_lmp_feat_afhclasl = -1;
+static int hf_lmp_feat_bredrnotsup = -1;
+static int hf_lmp_feat_lesup = -1;
+static int hf_lmp_feat_3slotenh = -1;
+static int hf_lmp_feat_5slotenh = -1;
+static int hf_lmp_feat_sniffsubr = -1;
+static int hf_lmp_feat_pauseenc = -1;
+static int hf_lmp_feat_afhcapma = -1;
+static int hf_lmp_feat_afhclama = -1;
+static int hf_lmp_feat_esco2 = -1;
+static int hf_lmp_feat_esco3 = -1;
+static int hf_lmp_feat_3slotenhesco = -1;
+static int hf_lmp_feat_extinqres = -1;
+static int hf_lmp_feat_simlebredr = -1;
+static int hf_lmp_feat_res3 = -1;
+static int hf_lmp_feat_ssp = -1;
+static int hf_lmp_feat_enpdu = -1;
+static int hf_lmp_feat_edr = -1;
+static int hf_lmp_feat_nonflush = -1;
+static int hf_lmp_feat_res4 = -1;
+static int hf_lmp_feat_lstimche = -1;
+static int hf_lmp_feat_inqtxpwr = -1;
+static int hf_lmp_feat_enhpwr = -1;
+static int hf_lmp_feat_res5 = -1;
+static int hf_lmp_feat_res6 = -1;
+static int hf_lmp_feat_res7 = -1;
+static int hf_lmp_feat_res8 = -1;
+static int hf_lmp_feat_extfeat = -1;
+static int hf_lmp_featuresext = -1;
+static int hf_lmp_efeat_ssp = -1;
+static int hf_lmp_efeat_lesup = -1;
+static int hf_lmp_efeat_lebredr = -1;
+static int hf_lmp_efeat_sch = -1;
+static int hf_lmp_efeat_csbma = -1;
+static int hf_lmp_efeat_csbsl = -1;
+static int hf_lmp_efeat_syntr = -1;
+static int hf_lmp_efeat_synsc = -1;
+static int hf_lmp_efeat_inqresnote = -1;
+static int hf_lmp_efeat_genintsc = -1;
+static int hf_lmp_efeat_ccadj = -1;
+static int hf_lmp_efeat_res0 = -1;
+static int hf_lmp_efeat_scc = -1;
+static int hf_lmp_efeat_ping = -1;
+static int hf_lmp_efeat_res1 = -1;
+static int hf_lmp_efeat_trnud = -1;
+static int hf_lmp_efeat_sam = -1;
 static int hf_lmp_fpage = -1;
 static int hf_lmp_htime = -1;
 static int hf_lmp_hinst = -1;
@@ -254,6 +336,104 @@ static int hf_lmp_tsniff = -1;
 static int hf_lmp_txfreq = -1;
 static int hf_lmp_versnr = -1;
 static int hf_lmp_wesco = -1;
+
+/* supported features page 0 (standard p. 528) */
+static const int *features_fields[] = {	
+	&hf_lmp_feat_3slot,
+	&hf_lmp_feat_5slot,
+	&hf_lmp_feat_enc,
+	&hf_lmp_feat_slotoff,
+	&hf_lmp_feat_timacc,
+	&hf_lmp_feat_rolesw,
+	&hf_lmp_feat_holdmo,
+	&hf_lmp_feat_sniffmo,
+	&hf_lmp_feat_res0,
+	&hf_lmp_feat_pwrctlreq,
+	&hf_lmp_feat_cqddr,
+	&hf_lmp_feat_sco,
+	&hf_lmp_feat_hv2,
+	&hf_lmp_feat_hv3,
+	&hf_lmp_feat_mulaw,
+	&hf_lmp_feat_alaw,
+	&hf_lmp_feat_cvsd,
+	&hf_lmp_feat_pagneg,
+	&hf_lmp_feat_pwrctl,
+	&hf_lmp_feat_transsync,
+	&hf_lmp_feat_flowctl1,
+	&hf_lmp_feat_flowctl2,
+	&hf_lmp_feat_flowctl3,
+	&hf_lmp_feat_bcenc,
+	&hf_lmp_feat_res1,
+	&hf_lmp_feat_acl2,
+	&hf_lmp_feat_acl3,
+	&hf_lmp_feat_eninq,
+	&hf_lmp_feat_intinq,
+	&hf_lmp_feat_intpag,
+	&hf_lmp_feat_rssiinq,
+	&hf_lmp_feat_ev3,
+	&hf_lmp_feat_ev4,
+	&hf_lmp_feat_ev5,
+	&hf_lmp_feat_res2,
+	&hf_lmp_feat_afhcapsl,
+	&hf_lmp_feat_afhclasl,
+	&hf_lmp_feat_bredrnotsup,
+	&hf_lmp_feat_lesup,
+	&hf_lmp_feat_3slotenh,
+	&hf_lmp_feat_5slotenh,
+	&hf_lmp_feat_sniffsubr,
+	&hf_lmp_feat_pauseenc,
+	&hf_lmp_feat_afhcapma,
+	&hf_lmp_feat_afhclama,
+	&hf_lmp_feat_esco2,
+	&hf_lmp_feat_esco3,
+	&hf_lmp_feat_3slotenhesco,
+	&hf_lmp_feat_extinqres,
+	&hf_lmp_feat_simlebredr,
+	&hf_lmp_feat_res3,
+	&hf_lmp_feat_ssp,
+	&hf_lmp_feat_enpdu,
+	&hf_lmp_feat_edr,
+	&hf_lmp_feat_nonflush,
+	&hf_lmp_feat_res4,
+	&hf_lmp_feat_lstimche,
+	&hf_lmp_feat_inqtxpwr,
+	&hf_lmp_feat_enhpwr,
+	&hf_lmp_feat_res5,
+	&hf_lmp_feat_res6,
+	&hf_lmp_feat_res7,
+	&hf_lmp_feat_res8,
+	&hf_lmp_feat_extfeat,
+	NULL
+};
+
+
+/* supported features page 1+2 (standard p. 530) */
+static const int *extfeatures1_fields[] = {	
+	
+	&hf_lmp_efeat_ssp,
+	&hf_lmp_efeat_lesup,
+	&hf_lmp_efeat_lebredr,
+	&hf_lmp_efeat_sch,
+	NULL
+};
+
+static const int *extfeatures2_fields[] = {	
+	&hf_lmp_efeat_csbma,
+	&hf_lmp_efeat_csbsl,
+	&hf_lmp_efeat_syntr,
+	&hf_lmp_efeat_synsc,
+	&hf_lmp_efeat_inqresnote,
+	&hf_lmp_efeat_genintsc,
+	&hf_lmp_efeat_ccadj,
+	&hf_lmp_efeat_res0,
+	&hf_lmp_efeat_scc,
+	&hf_lmp_efeat_ping,
+	&hf_lmp_efeat_res1,
+	&hf_lmp_efeat_trnud,
+	&hf_lmp_efeat_sam,
+	NULL
+};
+
 
 /* timing control flags */
 static const int *timectrl_fields[] = {
@@ -622,7 +802,9 @@ static const value_string afh_mode[] = {
 
 static const value_string features_page[] = {
 	{ 0, "standard features" },
-	/* 1 - 255 other feature pages */
+	{ 1, "extended features 64-67" },
+	{ 2, "extended features 128-140" },
+	/* 3 - 255 other feature pages */
 	{ 0, NULL }
 };
 
@@ -752,6 +934,8 @@ static gint ett_lmp = -1;
 static gint ett_lmp_pwradjres = -1;
 static gint ett_lmp_rate = -1;
 static gint ett_lmp_timectrl = -1;
+static gint ett_lmp_features = -1;
+static gint ett_lmp_featuresext = -1;
 
 /* LMP PDUs with short opcodes */
 
@@ -1294,8 +1478,9 @@ dissect_features_req(proto_tree *tree, tvbuff_t *tvb, int offset, int len)
 {
 	DISSECTOR_ASSERT(len == 9);
 	DISSECTOR_ASSERT(tvb_reported_length_remaining(tvb, offset) >= 8);
-
-	proto_tree_add_item(tree, hf_lmp_features, tvb, offset, 8, ENC_NA);
+    
+	proto_tree_add_bitmask(tree, tvb, offset, hf_lmp_features,
+			ett_lmp_features, features_fields, ENC_LITTLE_ENDIAN);
 }
 
 void
@@ -1303,8 +1488,9 @@ dissect_features_res(proto_tree *tree, tvbuff_t *tvb, int offset, int len)
 {
 	DISSECTOR_ASSERT(len == 9);
 	DISSECTOR_ASSERT(tvb_reported_length_remaining(tvb, offset) >= 8);
-
-	proto_tree_add_item(tree, hf_lmp_features, tvb, offset, 8, ENC_NA);
+	
+	proto_tree_add_bitmask(tree, tvb, offset, hf_lmp_features,
+			ett_lmp_features, features_fields, ENC_LITTLE_ENDIAN);
 }
 
 void
@@ -1618,39 +1804,56 @@ dissect_not_accepted_ext(proto_tree *tree, tvbuff_t *tvb, int offset, int len)
 void
 dissect_features_req_ext(proto_tree *tree, tvbuff_t *tvb, int offset, int len)
 {
+	int feat_page = 0;
+	
 	DISSECTOR_ASSERT(len == 12);
 	DISSECTOR_ASSERT(tvb_reported_length_remaining(tvb, offset) >= 10);
 
 	proto_tree_add_item(tree, hf_lmp_fpage, tvb, offset, 1, ENC_LITTLE_ENDIAN);
+	feat_page = tvb_get_guint8(tvb, offset);
 	offset += 1;
 
 	proto_tree_add_item(tree, hf_lmp_maxsp, tvb, offset, 1, ENC_LITTLE_ENDIAN);
 	offset += 1;
 
-	/*
-	 * extended features might need to be different from hf_lmp_features
-	 * if hf_lmp_features is broken out
-	 */
-	proto_tree_add_item(tree, hf_lmp_features, tvb, offset, 8, ENC_NA);
+	
+	if (feat_page == 1)
+	{
+		proto_tree_add_bitmask(tree, tvb, offset, hf_lmp_featuresext,
+				ett_lmp_featuresext, extfeatures1_fields, ENC_LITTLE_ENDIAN);
+	}
+	else
+	{
+		proto_tree_add_bitmask(tree, tvb, offset, hf_lmp_featuresext,
+				ett_lmp_featuresext, extfeatures2_fields, ENC_LITTLE_ENDIAN);
+	}
+	
 }
 
 void
 dissect_features_res_ext(proto_tree *tree, tvbuff_t *tvb, int offset, int len)
 {
+	int feat_page = 0;
 	DISSECTOR_ASSERT(len == 12);
 	DISSECTOR_ASSERT(tvb_reported_length_remaining(tvb, offset) >= 10);
 
 	proto_tree_add_item(tree, hf_lmp_fpage, tvb, offset, 1, ENC_LITTLE_ENDIAN);
+	feat_page = tvb_get_guint8(tvb, offset);
 	offset += 1;
 
 	proto_tree_add_item(tree, hf_lmp_maxsp, tvb, offset, 1, ENC_LITTLE_ENDIAN);
 	offset += 1;
 
-	/*
-	 * extended features might need to be different from hf_lmp_features
-	 * if hf_lmp_features is broken out
-	 */
-	proto_tree_add_item(tree, hf_lmp_features, tvb, offset, 8, ENC_NA);
+	if (feat_page == 1) 
+	{
+		proto_tree_add_bitmask(tree, tvb, offset, hf_lmp_featuresext,
+				ett_lmp_featuresext, extfeatures1_fields, ENC_LITTLE_ENDIAN);
+	}
+	else
+	{
+		proto_tree_add_bitmask(tree, tvb, offset, hf_lmp_featuresext,
+				ett_lmp_featuresext, extfeatures2_fields, ENC_LITTLE_ENDIAN);
+	}
 }
 
 void
@@ -2409,9 +2612,420 @@ proto_register_btbrlmp(void)
 		},
 		{ &hf_lmp_features,
 			{ "Features", "btbrlmp.features",
-			/* could break out individual features but long */
-			FT_BYTES, BASE_NONE, NULL, 0x0,
+			FT_UINT64, BASE_HEX, NULL, 0x0,
 			"Feature Mask", HFILL }
+		},
+        { &hf_lmp_feat_3slot,
+			{ "3 slot packets", "btbrlmp.feat.3slot",
+			FT_BOOLEAN, 64, NULL, 0x1,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_5slot,
+			{ "5 slot packets", "btbrlmp.feat.5slot",
+			FT_BOOLEAN, 64, NULL, 0x1<<1,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_enc,
+			{ "Encryption", "btbrlmp.feat.enc",
+			FT_BOOLEAN, 64, NULL, 0x1<<2,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_slotoff,
+			{ "Slot offset", "btbrlmp.feat.slotoff",
+			FT_BOOLEAN, 64, NULL, 0x1<<3,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_timacc,
+			{ "Timing accuracy", "btbrlmp.feat.timacc",
+			FT_BOOLEAN, 64, NULL, 0x1<<4,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_rolesw,
+			{ "Role switch", "btbrlmp.feat.rolesw",
+			FT_BOOLEAN, 64, NULL, 0x1<<5,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_holdmo,
+			{ "Hold mode", "btbrlmp.feat.holdmo",
+			FT_BOOLEAN, 64, NULL, 0x1<<6,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_sniffmo,
+			{ "Sniff mode", "btbrlmp.feat.sniffmo",
+			FT_BOOLEAN, 64, NULL, 0x1<<7,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_res0,
+			{ "Reserved", "btbrlmp.feat.res0",
+			FT_BOOLEAN, 64, NULL, 0x1<<8,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_pwrctlreq,
+			{ "Power control requests", "btbrlmp.feat.pwrctlreq",
+			FT_BOOLEAN, 64, NULL, 0x1<<9,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_cqddr,
+			{ "Channel quality driven data rate (CQDDR)", "btbrlmp.feat.cqddr",
+			FT_BOOLEAN, 64, NULL, 0x1<<10,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_sco,
+			{ "SCO link", "btbrlmp.feat.sco",
+			FT_BOOLEAN, 64, NULL, 0x1<<11,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_hv2,
+			{ "HV2 packets", "btbrlmp.feat.hv2",
+			FT_BOOLEAN, 64, NULL, 0x1<<12,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_hv3,
+			{ "HV3 packets", "btbrlmp.feat.hv3",
+			FT_BOOLEAN, 64, NULL, 0x1<<13,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_mulaw,
+			{ "μ-law log synchronous data", "btbrlmp.feat.mulaw",
+			FT_BOOLEAN, 64, NULL, 0x1<<14,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_alaw,
+			{ "A-law log synchronous data", "btbrlmp.feat.alaw",
+			FT_BOOLEAN, 64, NULL, 0x1<<15,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_cvsd,
+			{ "CVSD synchronous data", "btbrlmp.feat.cvsd",
+			FT_BOOLEAN, 64, NULL, 0x1<<16,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_pagneg,
+			{ "Paging parameter negotiation", "btbrlmp.feat.pagneg",
+			FT_BOOLEAN, 64, NULL, 0x1<<17,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_pwrctl,
+			{ "Power control", "btbrlmp.feat.pwrctl",
+			FT_BOOLEAN, 64, NULL, 0x1<<18,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_transsync,
+			{ "Transparent synchronous data", "btbrlmp.feat.transsync",
+			FT_BOOLEAN, 64, NULL, 0x1<<19,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_flowctl1,
+			{ "Flow control lag (least significant bit)", "btbrlmp.feat.flowctl1",
+			FT_BOOLEAN, 64, NULL, 0x1<<20,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_flowctl2,
+			{ "Flow control lag (middle bit)", "btbrlmp.feat.flowctl2",
+			FT_BOOLEAN, 64, NULL, 0x1<<21,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_flowctl3,
+			{ "Flow control lag (most significant bit)", "btbrlmp.feat.flowctl3",
+			FT_BOOLEAN, 64, NULL, 0x1<<22,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_bcenc,
+			{ "Broadcast Encryption", "btbrlmp.feat.bcenc",
+			FT_BOOLEAN, 64, NULL, 0x1<<23,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_res1,
+			{ "Reserved for future use", "btbrlmp.feat.res1",
+			FT_BOOLEAN, 64, NULL, 0x1<<24,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_acl2,
+			{ "Enhanced Data Rate ACL 2 Mb/s mode", "btbrlmp.feat.acl2",
+			FT_BOOLEAN, 64, NULL, 0x1<<25,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_acl3,
+			{ "Enhanced Data Rate ACL 3 Mb/s mode", "btbrlmp.feat.acl3",
+			FT_BOOLEAN, 64, NULL, 0x1<<26,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_eninq,
+			{ "Enhanced inquiry scan", "btbrlmp.feat.eninq",
+			FT_BOOLEAN, 64, NULL, 0x1<<27,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_intinq,
+			{ "Interlaced inquiry scan", "btbrlmp.feat.intinq",
+			FT_BOOLEAN, 64, NULL, 0x1<<28,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_intpag,
+			{ "Interlaced page scan", "btbrlmp.feat.intpag",
+			FT_BOOLEAN, 64, NULL, 0x1<<29,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_rssiinq,
+			{ "RSSI with inquiry results", "btbrlmp.feat.rssiinq",
+			FT_BOOLEAN, 64, NULL, 0x1<<30,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_ev3,
+			{ "Extended SCO link (EV3 packets)", "btbrlmp.feat.ev3",
+			FT_BOOLEAN, 64, NULL, 0x80000000,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_ev4,
+			{ "EV4 packets", "btbrlmp.feat.ev4",
+			FT_BOOLEAN, 64, NULL, 0x100000000,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_ev5,
+			{ "EV5 packets", "btbrlmp.feat.ev5",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<1,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_res2,
+			{ "Reserved", "btbrlmp.feat.res2",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<2,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_afhcapsl,
+			{ "AFH capable slave", "btbrlmp.feat.afhcapsl",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<3,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_afhclasl,
+			{ "AFH classification slave", "btbrlmp.feat.afhclasl",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<4,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_bredrnotsup,
+			{ "BR/EDR Not Supported", "btbrlmp.feat.bredrnotsup",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<5,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_lesup,
+			{ "LE Supported (Controller)", "btbrlmp.feat.lesup",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<6,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_3slotenh,
+			{ "3-slot Enhanced Data Rate ACL packets", "btbrlmp.feat.3slotenh",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<7,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_5slotenh,
+			{ "5-slot Enhanced Data Rate ACL packets", "btbrlmp.feat.5slotenh",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<8,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_sniffsubr,
+			{ "Sniff subrating", "btbrlmp.feat.sniffsubr",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<9,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_pauseenc,
+			{ "Pause encryption", "btbrlmp.feat.pauseenc",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<10,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_afhcapma,
+			{ "AFH capable master", "btbrlmp.feat.afhcapma",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<11,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_afhclama,
+			{ "AFH classification master", "btbrlmp.feat.afhclama",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<12,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_esco2,
+			{ "Enhanced Data Rate eSCO 2 Mb/s mode", "btbrlmp.feat.esco2",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<13,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_esco3,
+			{ "Enhanced Data Rate eSCO 3 Mb/s mode", "btbrlmp.feat.esco3",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<14,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_3slotenhesco,
+			{ "3-slot Enhanced Data Rate eSCO packets", "btbrlmp.feat.3slotenhesco",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<15,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_extinqres,
+			{ "Extended Inquiry Response", "btbrlmp.feat.extinqres",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<16,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_simlebredr,
+			{ "Simultaneous LE and BR/EDR to Same Device Capable (Controller)", "btbrlmp.feat.simlebredr",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<17,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_res3,
+			{ "Reserved", "btbrlmp.feat.res3",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<18,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_ssp,
+			{ "Secure Simple Pairing", "btbrlmp.feat.ssp",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<19,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_enpdu,
+			{ "Encapsulated PDU", "btbrlmp.feat.enpdu",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<20,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_edr,
+			{ "Erroneous Data Reporting", "btbrlmp.feat.edr",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<21,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_nonflush,
+			{ "Non-flushable Packet Boundary Flag", "btbrlmp.feat.nonflush",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<22,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_res4,
+			{ "Reserved", "btbrlmp.feat.res4",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<23,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_lstimche,
+			{ "Link Supervision Timeout Changed Event", "btbrlmp.feat.lstimche",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<24,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_inqtxpwr,
+			{ "Inquiry TX Power Level", "btbrlmp.feat.inqtxpwr",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<25,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_enhpwr,
+			{ "Enhanced Power Control", "btbrlmp.feat.enhpwr",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<26,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_res5,
+			{ "Reserved", "btbrlmp.feat.res5",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<27,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_res6,
+			{ "Reserved", "btbrlmp.feat.res6",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<28,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_res7,
+			{ "Reserved", "btbrlmp.feat.res7",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<29,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_res8,
+			{ "Reserved", "btbrlmp.feat.res8",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<30,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_feat_extfeat,
+			{ "Extended features", "btbrlmp.feat.extfeat",
+			FT_BOOLEAN, 64, NULL, 0x100000000<<31,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_featuresext,
+			{ "Extended Features", "btbrlmp.featuresext",
+			FT_UINT64, BASE_HEX, NULL, 0x0,
+			"Extended Feature Mask", HFILL }
+		},
+        /* extended features page 1 */
+        { &hf_lmp_efeat_ssp,
+			{ "Secure Simple Pairing (Host Support)", "btbrlmp.efeat.ssp",
+			FT_BOOLEAN, 64, NULL, 0x1<<0,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_lesup,
+			{ "LE Supported (Host)", "btbrlmp.efeat.lesup",
+			FT_BOOLEAN, 64, NULL, 0x1<<1,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_lebredr,
+			{ "Simultaneous LE and BR/EDR to Same Device Capable (Host)", "btbrlmp.efeat.lebredr",
+			FT_BOOLEAN, 64, NULL, 0x1<<2,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_sch,
+			{ "Secure Connections (Host Support)", "btbrlmp.efeat.sch",
+			FT_BOOLEAN, 64, NULL, 0x1<<3,
+			NULL, HFILL }
+		},
+        /* extended features page 2 */
+		{ &hf_lmp_efeat_csbma,
+			{ "Connectionless Slave Broadcast - Master Operation", "btbrlmp.efeat.csbma",
+			FT_BOOLEAN, 64, NULL, 0x1<<0,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_csbsl,
+			{ "Connectionless Slave Broadcast - Slave Operation", "btbrlmp.efeat.csbsl",
+			FT_BOOLEAN, 64, NULL, 0x1<<1,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_syntr,
+			{ "Synchronization Train", "btbrlmp.efeat.syntr",
+			FT_BOOLEAN, 64, NULL, 0x1<<2,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_synsc,
+			{ "Synchronization Scan", "btbrlmp.efeat.synsc",
+			FT_BOOLEAN, 64, NULL, 0x1<<3,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_inqresnote,
+			{ "Inquiry Response Notification Event", "btbrlmp.efeat.inqresnote",
+			FT_BOOLEAN, 64, NULL, 0x1<<4,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_genintsc,
+			{ "Generalized interlaced scan", "btbrlmp.efeat.genintsc",
+			FT_BOOLEAN, 64, NULL, 0x1<<5,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_ccadj,
+			{ "Coarse Clock Adjustment", "btbrlmp.efeat.ccadj",
+			FT_BOOLEAN, 64, NULL, 0x1<<6,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_res0,
+			{ "Reserved for future use", "btbrlmp.efeat.res0",
+			FT_BOOLEAN, 64, NULL, 0x1<<7,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_scc,
+			{ "Secure Connections (Controller Support)", "btbrlmp.efeat.scc",
+			FT_BOOLEAN, 64, NULL, 0x1<<8,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_ping,
+			{ "Ping", "btbrlmp.efeat.ping",
+			FT_BOOLEAN, 64, NULL, 0x1<<9,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_res1,
+			{ "Reserved for future use", "btbrlmp.efeat.res1",
+			FT_BOOLEAN, 64, NULL, 0x1<<10,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_trnud,
+			{ "Train nudging", "btbrlmp.efeat.trnud",
+			FT_BOOLEAN, 64, NULL, 0x1<<11,
+			NULL, HFILL }
+		},
+		{ &hf_lmp_efeat_sam,
+			{ "Slot Availability Mask", "btbrlmp.efeat.sam",
+			FT_BOOLEAN, 64, NULL, 0x1<<12, //typo in the BT standard defines this as >>10 ...
+			NULL, HFILL }
 		},
 		{ &hf_lmp_fpage,
 			{ "Features Page", "btbrlmp.fpage",
@@ -2852,6 +3466,8 @@ proto_register_btbrlmp(void)
 		&ett_lmp_pwradjres,
 		&ett_lmp_rate,
 		&ett_lmp_timectrl,
+		&ett_lmp_features,
+		&ett_lmp_featuresext,
 	};
 
 	/* register the protocol name and description */
