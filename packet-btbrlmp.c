@@ -667,7 +667,11 @@ static const value_string versnr[] = {
 	{ 3, "Bluetooth Core Specification 2.0 + EDR" },
 	{ 4, "Bluetooth Core Specification 2.1 + EDR" },
 	{ 5, "Bluetooth Core Specification 3.0 + HS" },
-	/* 6 - 255 reserved */
+	{ 6, "Bluetooth Core Specification 4.0" },
+	{ 7, "​Bluetooth Core Specification 4.1" },
+	{ 8, "​Bluetooth Core Specification 4.2" },
+	{ 9, "Bluetooth Core Specification 5.0" },
+	/* 10 - 255 reserved */
 	{ 0, NULL }
 };
 
