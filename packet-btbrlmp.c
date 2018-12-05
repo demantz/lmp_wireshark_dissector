@@ -32,6 +32,7 @@
 #include <epan/prefs.h>
 
 /* LMP opcodes */
+#define LMP_VSC                          0
 #define LMP_NAME_REQ                     1
 #define LMP_NAME_RES                     2
 #define LMP_ACCEPTED                     3
@@ -471,6 +472,7 @@ static const true_false_string tid = {
 
 /* short LMP opcodes */
 static const value_string opcode[] = {
+	{ LMP_VSC, "LMP_vendor_specific" },
 	{ LMP_NAME_REQ, "LMP_name_req" },
 	{ LMP_NAME_RES, "LMP_name_res" },
 	{ LMP_ACCEPTED, "LMP_accepted" },
@@ -1669,30 +1671,28 @@ dissect_test_control(proto_tree *tree, tvbuff_t *tvb, int offset, int len)
 	DISSECTOR_ASSERT(len == 10);
 	DISSECTOR_ASSERT(tvb_reported_length_remaining(tvb, offset) >= 9);
 
-	/* FIXME these fields should all be XORed with 0x55. . . */
-
-	proto_tree_add_item(tree, hf_lmp_testscen, tvb, offset, 1, ENC_LITTLE_ENDIAN);
+    proto_tree_add_uint(tree, hf_lmp_testscen, tvb, offset, 1, tvb_get_guint8(tvb, offset) ^ 0x55);
 	offset += 1;
 
-	proto_tree_add_item(tree, hf_lmp_hopmode, tvb, offset, 1, ENC_LITTLE_ENDIAN);
+	proto_tree_add_uint(tree, hf_lmp_hopmode, tvb, offset, 1, tvb_get_guint8(tvb, offset) ^ 0x55);
 	offset += 1;
 
-	proto_tree_add_item(tree, hf_lmp_txfreq, tvb, offset, 1, ENC_LITTLE_ENDIAN);
+	proto_tree_add_uint(tree, hf_lmp_txfreq, tvb, offset, 1, (tvb_get_guint8(tvb, offset) ^ 0x55) + 2402); //MHz
 	offset += 1;
 
-	proto_tree_add_item(tree, hf_lmp_rxfreq, tvb, offset, 1, ENC_LITTLE_ENDIAN);
+	proto_tree_add_uint(tree, hf_lmp_rxfreq, tvb, offset, 1, (tvb_get_guint8(tvb, offset) ^ 0x55) + 2402);
 	offset += 1;
 
-	proto_tree_add_item(tree, hf_lmp_pcmode, tvb, offset, 1, ENC_LITTLE_ENDIAN);
+	proto_tree_add_uint(tree, hf_lmp_pcmode, tvb, offset, 1, tvb_get_guint8(tvb, offset) ^ 0x55);
 	offset += 1;
 
-	proto_tree_add_item(tree, hf_lmp_pollper, tvb, offset, 1, ENC_LITTLE_ENDIAN);
+	proto_tree_add_uint(tree, hf_lmp_pollper, tvb, offset, 1, (tvb_get_guint8(tvb, offset) ^ 0x55)*1.25); //ms
 	offset += 1;
 
-	proto_tree_add_item(tree, hf_lmp_pkttype, tvb, offset, 1, ENC_LITTLE_ENDIAN);
+	proto_tree_add_uint(tree, hf_lmp_pkttype, tvb, offset, 1, tvb_get_guint8(tvb, offset) ^ 0x55);
 	offset += 1;
 
-	proto_tree_add_item(tree, hf_lmp_testlen, tvb, offset, 2, ENC_LITTLE_ENDIAN);
+	proto_tree_add_uint(tree, hf_lmp_testlen, tvb, offset, 2, tvb_get_bits16(tvb, offset*8, 16, ENC_LITTLE_ENDIAN)^0x5555);
 }
 
 void
@@ -3273,7 +3273,7 @@ proto_register_btbrlmp(void)
 			"Poll Interval in slots", HFILL }
 		},
 		{ &hf_lmp_pollper,
-			{ "Poll Period", "btbrlmp.pollper",
+			{ "Poll Period (ms)", "btbrlmp.pollper",
 			FT_UINT8, BASE_DEC, NULL, 0x0,
 			"Poll Period in units of 1.25 ms", HFILL }
 		},
@@ -3338,7 +3338,7 @@ proto_register_btbrlmp(void)
 			"Enhanced Data Rate packet size", HFILL }
 		},
 		{ &hf_lmp_rxfreq,
-			{ "RX Frequency", "btbrlmp.rxfreq",
+			{ "RX Frequency (MHz)", "btbrlmp.rxfreq",
 			FT_UINT8, BASE_DEC, NULL, 0x0,
 			"Receive Frequency in MHz above 2402", HFILL }
 		},
@@ -3404,12 +3404,12 @@ proto_register_btbrlmp(void)
 		},
 		{ &hf_lmp_testlen,
 			{ "Test Length", "btbrlmp.testlen",
-			FT_UINT16, BASE_DEC, NULL, 0x0,
+			FT_UINT16, BASE_DEC, NULL, 0x00,
 			"Length of test sequence in bytes", HFILL }
 		},
 		{ &hf_lmp_testscen,
 			{ "Test Scenario", "btbrlmp.testscen",
-			FT_UINT8, BASE_DEC, VALS(test_scenario), 0x0,
+			FT_UINT8, BASE_DEC, VALS(test_scenario), 0x00,
 			NULL, HFILL }
 		},
 		{ &hf_lmp_tid,
@@ -3448,7 +3448,7 @@ proto_register_btbrlmp(void)
 			"Tsniff in slots", HFILL }
 		},
 		{ &hf_lmp_txfreq,
-			{ "TX Frequency", "btbrlmp.txfreq",
+			{ "TX Frequency (MHz)", "btbrlmp.txfreq",
 			FT_UINT8, BASE_DEC, NULL, 0x0,
 			"Transmit Frequency in MHz above 2402", HFILL }
 		},
